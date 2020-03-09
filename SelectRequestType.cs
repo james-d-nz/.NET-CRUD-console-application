@@ -36,7 +36,7 @@ namespace CRUDConsoleApp
         public async void Display()
         {
             Console.WriteLine("You selected Display");
-            var fetchArtistNames = await sendRequest.fetchArtistsNames();
+            var fetchArtistNames = await sendRequest.FetchArtistNames();
 
             foreach (var artist in fetchArtistNames)
             {
@@ -47,7 +47,7 @@ namespace CRUDConsoleApp
         public void Create()
         {
             var artistTextInput = readInput.ReadInput();
-            var createArtist = sendRequest.createArtist(artistTextInput);
+            var createArtist = sendRequest.CreateArtist(artistTextInput);
             Console.WriteLine(createArtist.Result);
         }
 
@@ -60,7 +60,9 @@ namespace CRUDConsoleApp
         public void Delete()
         {
             Console.WriteLine("You selected Delete");
-            Console.ReadKey();
+            var artistTextInput = readInput.ReadInput();
+            var deleteArtist = sendRequest.DeleteArtist(artistTextInput.ToLower());
+            Console.WriteLine(deleteArtist.Result);
         }
     }
 }
