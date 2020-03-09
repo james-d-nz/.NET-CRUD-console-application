@@ -10,20 +10,22 @@ namespace CRUDConsoleApp
     {
         private ConsoleTextInput readInput = new ConsoleTextInput();
         private readonly DatabaseRequests sendRequest = new DatabaseRequests();
+        private SelectRequestType requestType = new SelectRequestType();
 
         static void Main(string[] args)
         {
             Program runProgram = new Program();
-            runProgram.runApplication();
+            while (true)
+            {
+                runProgram.runApplication();
+            }
         }
 
         public void runApplication()
         {
-            var textInput = readInput.ReadInput();
-            Console.WriteLine("You input" + " " + textInput);
-            var dbRequestCreate = sendRequest.createArtist(textInput);
-            Console.WriteLine(dbRequestCreate.Result);
-            Console.ReadKey();
+            Console.WriteLine("Select a Request Type (Display, Create, Edit and Delete)");
+            var requestTypeInput = Console.ReadLine();
+            requestType.FindSelectedRequestMethod(requestTypeInput);
         }
     }
 }
