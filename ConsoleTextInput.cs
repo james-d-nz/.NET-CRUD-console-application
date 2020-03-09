@@ -8,5 +8,11 @@ namespace CRUDConsoleApp
 {
     class ConsoleTextInput
     {
+        public string ReadInput()
+        {
+            Console.WriteLine("Please enter an Artist Name to save");
+            var readTextInput = Console.ReadLine();
+            return readTextInput;
+        }
     }
 }
