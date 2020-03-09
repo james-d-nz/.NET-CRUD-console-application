@@ -11,6 +11,7 @@ namespace CRUDConsoleApp
     class DatabaseRequests
     {
         private ChinookEntities db = new ChinookEntities();
+        private ConsoleTextInput readInput = new ConsoleTextInput();
 
         public async Task<List<string>> FetchArtistNames()
         {
@@ -34,7 +35,18 @@ namespace CRUDConsoleApp
         public async Task<string> EditArtist(string artistName)
         {
 
-            return "Artist Successfully created";
+            var findArtistToEdit = await FetchArtistByName(artistName);
+
+            if (findArtistToEdit == null)
+            {
+                return "Could not find artist to edit.";
+            }
+
+            var newArtistName = readInput.ReadInput("Enter new name for Artist");
+            findArtistToEdit.Name = newArtistName;
+            await db.SaveChangesAsync();
+
+            return "Artist Successfully edited";
         }
 
         public async Task<string> DeleteArtist(string artistName)
@@ -48,7 +60,7 @@ namespace CRUDConsoleApp
 
             findArtistToDelete.IsActive = false;
             await db.SaveChangesAsync();
-            return "Successfully delete artist.";
+            return "Successfully deleted artist.";
         }
 
         public async Task<List<string>> FetchArtistQuery()

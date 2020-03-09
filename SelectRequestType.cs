@@ -10,6 +10,7 @@ namespace CRUDConsoleApp
     {
         private ConsoleTextInput readInput = new ConsoleTextInput();
         private readonly DatabaseRequests sendRequest = new DatabaseRequests();
+        private Utilities utility = new Utilities();
 
         public void FindSelectedRequestMethod(string requestedInput)
         {
@@ -28,41 +29,44 @@ namespace CRUDConsoleApp
                     Delete();
                     break;
                 default:
-                    Console.WriteLine("Request type not found");
+                    utility.Message("No request type found");
                     break;
             }
         }
 
         public async void Display()
         {
-            Console.WriteLine("You selected Display");
+            utility.Message("You selected Display");
             var fetchArtistNames = await sendRequest.FetchArtistNames();
 
             foreach (var artist in fetchArtistNames)
             {
-                Console.WriteLine(artist);
+                utility.Message(artist);
             }
         }
 
         public void Create()
         {
-            var artistTextInput = readInput.ReadInput();
-            var createArtist = sendRequest.CreateArtist(artistTextInput);
-            Console.WriteLine(createArtist.Result);
+            utility.Message("You selected Create");
+            var createArtistTextInput = readInput.ReadInput("Enter new Artist name");
+            var createArtist = sendRequest.CreateArtist(createArtistTextInput);
+            utility.Message(createArtist.Result);
         }
 
         public void Edit()
         {
-            Console.WriteLine("You selected Edit");
-            Console.ReadKey();
+            utility.Message("You selected Edit");
+            var editArtistTextInput = readInput.ReadInput("Enter name of Artist to edit.");
+            var editArtist = sendRequest.EditArtist(editArtistTextInput);
+            utility.Message(editArtist.Result);
         }
 
         public void Delete()
         {
-            Console.WriteLine("You selected Delete");
-            var artistTextInput = readInput.ReadInput();
-            var deleteArtist = sendRequest.DeleteArtist(artistTextInput.ToLower());
-            Console.WriteLine(deleteArtist.Result);
+            utility.Message("You selected Delete");
+            var deleteArtistTextInput = readInput.ReadInput("Enter name of Artist to delete");
+            var deleteArtist = sendRequest.DeleteArtist(deleteArtistTextInput.ToLower());
+            utility.Message(deleteArtist.Result);
         }
     }
 }

@@ -8,5 +8,9 @@ namespace CRUDConsoleApp
 {
     class Utilities
     {
+        public void Message<T>(T messageString)
+        {
+            Console.WriteLine(messageString);
+        }
     }
 }

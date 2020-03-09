@@ -9,6 +9,7 @@ namespace CRUDConsoleApp
     class Program
     {
         private SelectRequestType requestType = new SelectRequestType();
+        private Utilities utility = new Utilities();
 
         static void Main(string[] args)
         {
@@ -21,7 +22,7 @@ namespace CRUDConsoleApp
 
         public void runApplication()
         {
-            Console.WriteLine("Select a Request Type (Display, Create, Edit and Delete)");
+            utility.Message("Select a Request Type (Display, Create, Edit and Delete)");
             var requestTypeInput = Console.ReadLine();
             requestType.FindSelectedRequestMethod(requestTypeInput);
         }
