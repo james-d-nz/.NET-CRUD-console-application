@@ -8,8 +8,6 @@ namespace CRUDConsoleApp
 {
     class Program
     {
-        private ConsoleTextInput readInput = new ConsoleTextInput();
-        private readonly DatabaseRequests sendRequest = new DatabaseRequests();
         private SelectRequestType requestType = new SelectRequestType();
 
         static void Main(string[] args)

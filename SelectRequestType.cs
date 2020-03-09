@@ -8,6 +8,9 @@ namespace CRUDConsoleApp
 {
     class SelectRequestType
     {
+        private ConsoleTextInput readInput = new ConsoleTextInput();
+        private readonly DatabaseRequests sendRequest = new DatabaseRequests();
+
         public void FindSelectedRequestMethod(string requestedInput)
         {
             switch (requestedInput)
@@ -30,16 +33,22 @@ namespace CRUDConsoleApp
             }
         }
 
-        public void Display()
+        public async void Display()
         {
             Console.WriteLine("You selected Display");
-            Console.ReadKey();
+            var fetchArtistNames = await sendRequest.fetchArtistsNames();
+
+            foreach (var artist in fetchArtistNames)
+            {
+                Console.WriteLine(artist);
+            }
         }
 
         public void Create()
         {
-            Console.WriteLine("You selected Create");
-            Console.ReadKey();
+            var artistTextInput = readInput.ReadInput();
+            var createArtist = sendRequest.createArtist(artistTextInput);
+            Console.WriteLine(createArtist.Result);
         }
 
         public void Edit()
