@@ -14,7 +14,7 @@ namespace CRUDConsoleApp
 
         public async Task<List<string>> FetchArtistNames()
         {
-            var getArtists = await db.Artists.Where(x => x.IsActive == true).Select(x => x.Name).ToListAsync();
+            var getArtists = await FetchArtistQuery();
             return getArtists;
         }
 
@@ -22,7 +22,8 @@ namespace CRUDConsoleApp
         {
             var newArtist = new Artist()
             {
-                Name = artistName
+                Name = artistName,
+                IsActive = true
             };
 
             db.Artists.Add(newArtist);
@@ -30,18 +31,36 @@ namespace CRUDConsoleApp
             return "Artist Successfully created";
         }
 
+        public async Task<string> EditArtist(string artistName)
+        {
+
+            return "Artist Successfully created";
+        }
+
         public async Task<string> DeleteArtist(string artistName)
         {
-            var findArtistToDelete = db.Artists.Where(x => x.Name.ToLower() == artistName && x.IsActive == true).FirstOrDefaultAsync();
+            var findArtistToDelete = await FetchArtistByName(artistName);
 
-            if (findArtistToDelete.Result == null)
+            if (findArtistToDelete == null)
             {
                 return "Could not find artist to delete.";
             }
 
-            findArtistToDelete.Result.IsActive = false;
+            findArtistToDelete.IsActive = false;
             await db.SaveChangesAsync();
             return "Successfully delete artist.";
+        }
+
+        public async Task<List<string>> FetchArtistQuery()
+        {
+            var fetchArtist = await db.Artists.Where(x => x.IsActive == true).Select(x => x.Name).ToListAsync();
+            return fetchArtist;
+        }
+
+        public async Task<Artist> FetchArtistByName(string artistName)
+        {
+            var fetchArtist = await db.Artists.Where(x => x.Name.ToLower() == artistName && x.IsActive == true).FirstOrDefaultAsync();
+            return fetchArtist;
         }
     }
 }
